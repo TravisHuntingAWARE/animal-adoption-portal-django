@@ -31,8 +31,8 @@ available_animals = []
 # Uncomment this and fill out the details to integrate with Azure Key Vault
 # You will need to set environment variables for Django__KeyVaultName and Django__Debug
 # as part of this task too, don't forget to tidy up any duplicate declarations!
-# key_vault_name = os.environ["Django__KeyVaultName"]
-key_vault_name = "kv-oss-taa"
+key_vault_name = os.environ["Django__KeyVaultName"]
+# key_vault_name = "kv-oss-taa"
 key_vault_uri = f"https://{key_vault_name}.vault.azure.net"
 
 # See here for more information https://docs.microsoft.com/en-us/python/api/overview/azure/identity-readme?view=azure-python#defaultazurecredential
