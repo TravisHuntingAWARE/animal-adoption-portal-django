@@ -13,24 +13,29 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 
-# from azure.keyvault.secrets import SecretClient
-# from azure.identity import DefaultAzureCredential
+from azure.keyvault.secrets import SecretClient
+from azure.identity import DefaultAzureCredential
+# from dotenv import load_dotenv
 
+# load_dotenv()
 
-# # Start Key Vault
-# key_vault_name = os.environ["Django__KeyVaultName"]
-# key_vault_uri = f"https://{key_vault_name}.vault.azure.net"
+# Start Key Vault
+key_vault_name = "kv-oss-taa"
+key_vault_uri = f"https://{key_vault_name}.vault.azure.net"
 
 # # See here for more information https://docs.microsoft.com/en-us/python/api/overview/azure/identity-readme?view=azure-python#defaultazurecredential
-# credential = DefaultAzureCredential()
-# key_vault_client = SecretClient(vault_url=key_vault_uri, credential=credential)
+credential = DefaultAzureCredential()
+key_vault_client = SecretClient(vault_url=key_vault_uri, credential=credential)
+connection_string = key_vault_client.get_secret('MongoConnectionString').value
+print(connection_string)
 
-# # These string values should match the name of your secrets in the Key Vault
-# postgresql_username = key_vault_client.get_secret('POSTGRESQL-Username').value
-# postgresql_password = key_vault_client.get_secret('POSTGRESQL-Password').value
-# postgresql_host_name = key_vault_client.get_secret('POSTGRESQL-HostName').value
-# postgresql_database_name = key_vault_client.get_secret('POSTGRESQL-DatabaseName').value
-# # End Key Vault
+# These string values should match the name of your secrets in the Key Vault
+postgresql_username = key_vault_client.get_secret('PostGresAdminUsername').value
+postgresql_password = key_vault_client.get_secret('PostGresAdminPassword').value
+postgresql_host_name = key_vault_client.get_secret('PostGresHostName').value
+postgresql_database_name = key_vault_client.get_secret('PostGresDatabaseName').value
+# postgresql_database_name = "postgres"
+# End Key Vault
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -103,30 +108,35 @@ AUTHENTICATION_BACKENDS = [
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 # Use local SQLite database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # # Start PostgreSQL
 # # Uncomment this and read in the details from your Key Vault variables to connect to PostgreSQL
 # # MAKE SURE THAT YOUR REMOVE THE SQL LITE DEFINITION ABOVE ONCE YOU ADD POSTGRESQL SUPPORT
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': f'{postgresql_database_name}',
-#         'USER': f'{postgresql_username}@{postgresql_host_name}',
-#         'PASSWORD': f'{postgresql_password}',
-#         'HOST': f'{postgresql_host_name}.postgres.database.azure.com',
-#         'PORT': '5432',
-#         'OPTIONS': {
-#             'sslmode': 'require'
-#         },
-#     }
-# }
+print(postgresql_database_name)
+print(postgresql_username)
+print(postgresql_host_name)
+print(postgresql_password)
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': f'{postgresql_database_name}',
+        'USER': f'{postgresql_username}@{postgresql_host_name}',
+        'PASSWORD': f'{postgresql_password}',
+        'HOST': f'{postgresql_host_name}.postgres.database.azure.com',
+        'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'require'
+        },
+    }
+}
 # # End PostgreSQL
 
 

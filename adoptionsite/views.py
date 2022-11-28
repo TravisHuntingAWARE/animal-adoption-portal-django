@@ -1,9 +1,9 @@
-# import os
+import os
 
-import pandas
-#from azure.identity import DefaultAzureCredential
-#from azure.keyvault.secrets import SecretClient
-#import pymongo
+# import pandas
+from azure.identity import DefaultAzureCredential
+from azure.keyvault.secrets import SecretClient
+import pymongo
 
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
@@ -21,41 +21,43 @@ available_animals = []
 # Start load from CSV
 # REMOVE THIS BLOCK WHEN READING FROM MONGO DB INSTEAD OF CSV
 # Load animals from CSV
-animals_df = pandas.read_csv('animals.csv', index_col='Id')
+# animals_df = pandas.read_csv('animals.csv', index_col='Id')
 
-for animal in animals_df.itertuples():
-    available_animals.append(Animal(id=animal.Index, name=animal.Name, description=animal.Description, age=animal.Age))
+# for animal in animals_df.itertuples():
+#     available_animals.append(Animal(id=animal.Index, name=animal.Name, description=animal.Description, age=animal.Age))
 # End load from CSV
 
-# # Start Key Vault
-# # Uncomment this and fill out the details to integrate with Azure Key Vault
-# # You will need to set environment variables for Django__KeyVaultName and Django__Debug
-# # as part of this task too, don't forget to tidy up any duplicate declarations!
+# Start Key Vault
+# Uncomment this and fill out the details to integrate with Azure Key Vault
+# You will need to set environment variables for Django__KeyVaultName and Django__Debug
+# as part of this task too, don't forget to tidy up any duplicate declarations!
 # key_vault_name = os.environ["Django__KeyVaultName"]
-# key_vault_uri = f"https://{key_vault_name}.vault.azure.net"
+key_vault_name = "kv-oss-taa"
+key_vault_uri = f"https://{key_vault_name}.vault.azure.net"
 
-# # See here for more information https://docs.microsoft.com/en-us/python/api/overview/azure/identity-readme?view=azure-python#defaultazurecredential
-# credential = DefaultAzureCredential()
-# key_vault_client = SecretClient(vault_url=key_vault_uri, credential=credential)
-# # End Key Vault
+# See here for more information https://docs.microsoft.com/en-us/python/api/overview/azure/identity-readme?view=azure-python#defaultazurecredential
+credential = DefaultAzureCredential()
+key_vault_client = SecretClient(vault_url=key_vault_uri, credential=credential)
+# End Key Vault
 
-# # Start Mongo DB
-# # Uncomment this and fill in the details to load the animals from Mongo DB
-# # Don't forget to remove the code above that is no longer required and the pandas
-# # package can also be removed from the requirements.txt file
+# Start Mongo DB
+# Uncomment this and fill in the details to load the animals from Mongo DB
+# Don't forget to remove the code above that is no longer required and the pandas
+# package can also be removed from the requirements.txt file
 # mongo_db_connection_string = key_vault_client.get_secret('MONGODB-ConnectionString').value
-# mongo_client = pymongo.MongoClient(mongo_db_connection_string)
+mongo_db_connection_string = key_vault_client.get_secret('MongoConnectionString').value
+mongo_client = pymongo.MongoClient(mongo_db_connection_string)
 
-# # This is your database name (TAA_Portal)
-# mongo_db = mongo_client.TAA_Portal
+# This is your database name (TAA_Portal)
+mongo_db = mongo_client.TAA_Portal
 
-# # This is your collection name (AvailableAnimals)
-# mongodb_animals = mongo_db.AvailableAnimals
+# This is your collection name (AvailableAnimals)
+mongodb_animals = mongo_db.AvailableAnimals
 
-# # MAKE SURE TO REMOVE THE LOAD FROM CSV BLOCK ABOVE
-# for animal in mongodb_animals.find():
-#     available_animals.append(Animal(id=animal['_id'], name=animal['name'], description=animal['description'], age=animal['age']))
-# # End Mongo DB
+# MAKE SURE TO REMOVE THE LOAD FROM CSV BLOCK ABOVE
+for animal in mongodb_animals.find():
+    available_animals.append(Animal(id=animal['_id'], name=animal['name'], description=animal['description'], age=animal['age']))
+# End Mongo DB
 
 
 cart_items = [
