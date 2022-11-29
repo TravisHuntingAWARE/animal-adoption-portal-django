@@ -54,10 +54,21 @@ jobs:
           name: python-app
           path: .
           
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{secrets.SP_CREDENTIALS}}
+          
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
         with:
           app-name: 'taa-portal'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0C5159A9530340D7AF08DBA9FC97E13F }}
+#           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0C5159A9530340D7AF08DBA9FC97E13F }}
+
+      - name: Azure Setup Settings
+        uses: Azure/appservice-settings@v1
+        with:
+          app-name: ${{ env.WEB_APP_NAME }}
+          app-settings-json: '[{"name": "Django__KeyVaultName","value": "{{secrets.KEYVAULT_NAME }}","slotSetting": false},{"name": "Django__Debug","value": "True","slotSetting": false}]'
