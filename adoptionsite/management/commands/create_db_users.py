@@ -15,4 +15,4 @@ class Command(BaseCommand):
 
             self.stdout.write(self.style.SUCCESS('Successfully created db users'))
         except Exception as ex:
-            raise CommandError(f'An error occured: {ex}')
+            raise CommandError(f'An error occurred: {ex}')
