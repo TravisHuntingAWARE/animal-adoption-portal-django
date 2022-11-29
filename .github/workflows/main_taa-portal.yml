@@ -71,4 +71,4 @@ jobs:
         uses: Azure/appservice-settings@v1
         with:
           app-name: 'taa-portal'
-          app-settings-json: '[{"name": "Django__KeyVaultName","value": ${{secrets.KEYVAULT_NAME }},"slotSetting": false},{"name": "Django__Debug","value": "True","slotSetting": false}]'
+          app-settings-json: '[{"name": "Django__KeyVaultName","value": "${{secrets.KEYVAULT_NAME }}","slotSetting": false},{"name": "Django__Debug","value": "True","slotSetting": false}]'
