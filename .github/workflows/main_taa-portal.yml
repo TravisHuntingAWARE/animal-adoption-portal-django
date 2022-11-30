@@ -40,6 +40,24 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
         
+      - name: Azure Login
+        uses: Azure/login@v1.1
+        with:
+          creds: ${{ secrets.SP_CREDENTIALS }}
+          
+      - name: Run tests
+        run: python manage.py test
+        env:
+          "Django__KeyVaultName": ${{ env.KEYVAULT_NAME }}
+          
+      - name: Calculate code coverage
+        run: |
+            coverage run --source="." --omit="adoptionsite/migrations*" manage.py test adoptionsite
+            coverage report
+        env:
+            "Django__KeyVaultName": ${{ env.KEYVAULT_NAME }}
+        
+        
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       
       - name: Upload artifact for deployment jobs
