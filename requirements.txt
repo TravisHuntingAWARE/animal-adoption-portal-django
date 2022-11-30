@@ -12,7 +12,7 @@ chardet==4.0.0
 contextvars==2.4
 coverage==6.2
 cryptography==3.3.2
-dataclasses==0.8
+dataclasses
 Deprecated==1.2.13
 Django==3.1.7
 idna==2.10
