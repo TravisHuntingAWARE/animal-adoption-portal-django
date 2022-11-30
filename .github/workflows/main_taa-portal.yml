@@ -112,10 +112,10 @@ jobs:
         uses: Azure/appservice-settings@v1
         with:
           app-name: 'taa-portal'
-          app-settings-json: '[{"name": "Django__KeyVaultName","value": "${{secrets.KEYVAULT_NAME }}","slotSetting": false},{"name": "Django__Debug","value": "True","slotSetting": false}]'
+          app-settings-json: '[{"name": "Django__KeyVaultName","value": "${{secrets.KEYVAULT_NAME }}","slotSetting": false},{"name": "Django__Debug","value": "True","slotSetting": false},{"name": "APPLICATIONINSIGHTS_CONNECTION_STRING","value": "${{secrets.REDIS_CONNECTION_STRING}}","slotSetting": false}]'
 
       - name: Azure Setup Settings 2
         uses: Azure/appservice-settings@v1
         with:
           app-name: 'taa-portal2'
-          app-settings-json: '[{"name": "Django__KeyVaultName","value": "${{secrets.KEYVAULT_NAME }}","slotSetting": false},{"name": "Django__Debug","value": "True","slotSetting": false}]'
+          app-settings-json: '[{"name": "Django__KeyVaultName","value": "${{secrets.KEYVAULT_NAME }}","slotSetting": false},{"name": "Django__Debug","value": "True","slotSetting": false},{"name": "APPLICATIONINSIGHTS_CONNECTION_STRING","value": "${{secrets.REDIS_CONNECTION_STRING}}","slotSetting": false}]'
