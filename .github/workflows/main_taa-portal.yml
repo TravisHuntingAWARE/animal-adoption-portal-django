@@ -17,6 +17,23 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
+      - name: Lint
+      - uses: ricardochaves/python-lint@v1.4.0
+        with:
+#           python-root-list: "python_alelo tests"
+          use-pylint: false
+          use-pycodestyle: false
+          use-flake8: true
+          use-black: false
+          use-mypy: false
+          use-isort: false
+          extra-pylint-options: ""
+          extra-pycodestyle-options: ""
+          extra-flake8-options: "--ignore=E201,E202,E501,F403,F405"
+          extra-black-options: ""
+          extra-mypy-options: ""
+          extra-isort-options: ""
+      
       - name: Perform spell check
         uses: sobolevn/misspell-fixer-action@0.1.0
         
