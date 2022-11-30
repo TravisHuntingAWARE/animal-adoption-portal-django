@@ -17,22 +17,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      - name: Lint
-        uses: ricardochaves/python-lint@v1.4.0
-        with:
-#           python-root-list: "python_alelo tests"
-          use-pylint: false
-          use-pycodestyle: false
-          use-flake8: true
-          use-black: false
-          use-mypy: false
-          use-isort: false
-          extra-pylint-options: ""
-          extra-pycodestyle-options: ""
-          extra-flake8-options: "--ignore=E201,E202,E501,F403,F405"
-          extra-black-options: ""
-          extra-mypy-options: ""
-          extra-isort-options: ""
+#       - name: Lint
+#         uses: ricardochaves/python-lint@v1.4.0
+#         with:
+#           use-flake8: true
+#           extra-flake8-options: "--ignore=E201,E202,E501,F403,F405"
       
       - name: Perform spell check
         uses: sobolevn/misspell-fixer-action@0.1.0
@@ -90,7 +79,8 @@ jobs:
     needs: build
     environment:
       name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      url: ${{ steps.deploy-to-webapp-1.outputs.webapp-url }}
+#       url: "http://travis-oss-on-azure.azurefd.net"
 
     steps:
       - name: Download artifact from build job
@@ -104,16 +94,28 @@ jobs:
         with:
           creds: ${{secrets.SP_CREDENTIALS}}
           
-      - name: 'Deploy to Azure Web App'
+      - name: 'Deploy to Azure Web App 1'
         uses: azure/webapps-deploy@v2
-        id: deploy-to-webapp
+        id: deploy-to-webapp-1
         with:
           app-name: 'taa-portal'
           slot-name: 'Production'
-#           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0C5159A9530340D7AF08DBA9FC97E13F }}
+          
+      - name: 'Deploy to Azure Web App 2'
+        uses: azure/webapps-deploy@v2
+        id: deploy-to-webapp-2
+        with:
+          app-name: 'taa-portal2'
+          slot-name: 'Production'
 
-      - name: Azure Setup Settings
+      - name: Azure Setup Settings 1
         uses: Azure/appservice-settings@v1
         with:
           app-name: 'taa-portal'
+          app-settings-json: '[{"name": "Django__KeyVaultName","value": "${{secrets.KEYVAULT_NAME }}","slotSetting": false},{"name": "Django__Debug","value": "True","slotSetting": false}]'
+
+      - name: Azure Setup Settings 2
+        uses: Azure/appservice-settings@v1
+        with:
+          app-name: 'taa-portal2'
           app-settings-json: '[{"name": "Django__KeyVaultName","value": "${{secrets.KEYVAULT_NAME }}","slotSetting": false},{"name": "Django__Debug","value": "True","slotSetting": false}]'
