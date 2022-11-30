@@ -48,7 +48,7 @@ jobs:
       - name: Run tests
         run: python manage.py test
         env:
-          "Django__KeyVaultName": ${{ env.KEYVAULT_NAME }}
+          "Django__KeyVaultName": ${{ secrets.KEYVAULT_NAME }}
           
       - name: Calculate code coverage
         run: |
