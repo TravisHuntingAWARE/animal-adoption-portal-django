@@ -1,43 +1,56 @@
+aiocontextvars==0.2.2
 asgiref==3.3.2
+async-timeout==4.0.2
 azure-common==1.1.27
-azure-core==1.13.0
+azure-core==1.24.2
 azure-identity==1.5.0
 azure-keyvault-secrets==4.2.0
+azure-monitor-opentelemetry-exporter==1.0.0b6
 certifi==2020.12.5
 cffi==1.14.5
 chardet==4.0.0
-# Pinning required to prevent Rust compilation errors and failures
-# in dependency resolution in GitHub Actions
-# https://github.com/Azure/azure-cli/issues/16858
+contextvars==2.4
+coverage==6.2
 cryptography==3.3.2
+dataclasses==0.8
+Deprecated==1.2.13
 Django==3.1.7
 idna==2.10
+immutables==0.19
+importlib-metadata==4.8.3
 isodate==0.6.0
 msal==1.11.0
 msal-extensions==0.3.0
 msrest==0.6.21
-# This is the most recent version that can be used with Python 3.6
-# As per https://docs.scipy.org/doc/scipy/reference/toolchain.html
-# the version history is here https://pypi.org/project/numpy/#history
 numpy==1.19.5
 oauthlib==3.1.0
-# This is the most recent version that can be used with Python 3.6
-# As per https://pypi.org/project/pandas/1.1.5/ (see the Programming Language
-# section on the left) the version history is here
-# https://pypi.org/project/pandas/#history
+opentelemetry-api==1.12.0
+opentelemetry-instrumentation==0.33b0
+opentelemetry-instrumentation-django==0.33b0
+opentelemetry-instrumentation-wsgi==0.33b0
+opentelemetry-sdk==1.12.0
+opentelemetry-semantic-conventions==0.33b0
+opentelemetry-util-http==0.33b0
+packaging==21.3
 pandas==1.1.5
 portalocker==1.7.1
 psycopg2==2.8.6
 pycparser==2.20
 PyJWT==2.0.1
 pymongo==3.11.3
+pyparsing==3.0.9
 python-dateutil==2.8.1
+python-dotenv==0.20.0
 pytz==2021.1
+pywin32==305
+redis==4.3.5
 requests==2.25.1
 requests-oauthlib==1.3.0
 six==1.15.0
 sqlparse==0.4.1
+typing_extensions==4.1.1
 urllib3==1.26.4
 whitenoise==5.2.0
-python-dotenv
-coverage
+wincertstore==0.2
+wrapt==1.14.1
+zipp==3.6.0

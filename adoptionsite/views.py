@@ -1,4 +1,5 @@
 import os
+import redis
 
 # import pandas
 from azure.identity import DefaultAzureCredential
@@ -31,8 +32,8 @@ available_animals = []
 # Uncomment this and fill out the details to integrate with Azure Key Vault
 # You will need to set environment variables for Django__KeyVaultName and Django__Debug
 # as part of this task too, don't forget to tidy up any duplicate declarations!
-key_vault_name = os.environ["Django__KeyVaultName"]
-# key_vault_name = "kv-oss-taa"
+# key_vault_name = os.environ["Django__KeyVaultName"]
+key_vault_name = "kv-oss-taa"
 key_vault_uri = f"https://{key_vault_name}.vault.azure.net"
 
 # See here for more information https://docs.microsoft.com/en-us/python/api/overview/azure/identity-readme?view=azure-python#defaultazurecredential
@@ -68,7 +69,16 @@ cart_items = [
 ]
 
 
+r = redis.StrictRedis(host='redis-oss.redis.cache.windows.net',
+        port=6380, db=0, password='aUQKrGIKJEdEMrq8WKHFFVDXmrhTU2mMIAzCaHwNOE8=', ssl=True)
+
+r.set("test", "okkkkkk")
+
 def index(request):
+    available_animals = []
+    for animal in mongodb_animals.find():
+        available_animals.append(Animal(id=animal['_id'], name=animal['name'], description=animal['description'], age=animal['age']))
+
     context = {
         'available_animals': available_animals
     }
