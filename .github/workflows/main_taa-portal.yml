@@ -55,6 +55,7 @@ jobs:
         run: python manage.py test
         env:
           "Django__KeyVaultName": ${{ secrets.KEYVAULT_NAME }}
+          "APPLICATIONINSIGHTS_CONNECTION_STRING": ${{ secrets.APPLICATIONINSIGHTS_CONNECTION_STRING }}
           
       - name: Calculate code coverage
         run: |
