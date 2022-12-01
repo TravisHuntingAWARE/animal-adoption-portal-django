@@ -34,17 +34,21 @@ jobs:
           title: 'Typos fix by misspell-fixer'
 
       - name: Set up Python version
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v4
         with:
           python-version: '3.8'
+          cache: 'pip'
+      - run: python -m venv venv
+      - run: source venv/bin/activate
+      - run: pip install -r requirements.txt
 
-      - name: Create and start virtual environment
-        run: |
-          python -m venv venv
-          source venv/bin/activate
+#       - name: Create and start virtual environment
+#         run: |
+#           python -m venv venv
+#           source venv/bin/activate
       
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+#       - name: Install dependencies
+#         run: pip install -r requirements.txt
         
       - name: Azure Login
         uses: Azure/login@v1.1
