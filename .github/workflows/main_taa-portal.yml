@@ -63,6 +63,7 @@ jobs:
             coverage report
         env:
             "Django__KeyVaultName": ${{ secrets.KEYVAULT_NAME }}
+            "APPLICATIONINSIGHTS_CONNECTION_STRING": ${{ secrets.APPLICATIONINSIGHTS_CONNECTION_STRING }}
         
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
