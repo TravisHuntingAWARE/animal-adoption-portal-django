@@ -141,6 +141,6 @@ jobs:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           resourceGroupName: OSS-prod
           template: ./bicep-template/template.bicep
-          parameters: location='Australia East' sites_taa_portal_name='taa-portal-prod' serverfarms_as_taa_name='as-taa-prod'
+          parameters: location="Australia East" sites_taa_portal_name="taa-portal-prod" serverfarms_as_taa_name="as-taa-prod"
           failOnStdErr: false
           deploymentMode: incremental
